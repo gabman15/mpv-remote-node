@@ -52,27 +52,10 @@ function getMPVSocket() {
   return socketName;
 }
 
-function getScriptPath(filename) {
-  var script = mp.get_script_file().replace(/\\/g, "\\\\");
-  var p = mp.command_native({
-    name: "subprocess",
-    args: ["node", "-p", "require('fs').realpathSync('" + script + "')"],
-    playback_only: false,
-    capture_stdout: true,
-  });
-  var s = p.stdout.split(pathsep);
-  s[s.length - 1] = filename;
-  return s.join(pathsep);
-}
-
-var scriptPath = getScriptPath("remoteServer.js");
-var watchlistHandlerPath = getScriptPath("watchlisthandler.js");
-
 var socketName = getMPVSocket();
 
 var serverArgs = [
-  "node",
-  scriptPath,
+  "mpv-remote-remote-server",
   socketName,
   "-p " + options.webport,
   "-e " + options.webportrangeend,
@@ -156,8 +139,7 @@ if (options.uselocaldb) {
     mp.command_native_async({
       name: "subprocess",
       args: [
-        "node",
-        watchlistHandlerPath,
+        "mpv-remote-watch-list-handler",
         currentFilename,
         currentPlaybackTime,
         currentPercentPos,

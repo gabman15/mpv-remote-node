@@ -6,7 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "bin": "./bin.js",
+  "bin": {
+    "mpv-remote": "./bin.js",
+    "mpv-remote-remote-server": "./remoteServer.js",
+    "mpv-remote-watch-list-handler": "./watchlisthandler.js"
+  },
   "author": "Ferenc Nánási",
   "dependencies": {
     "cors": "^2.8.5",
