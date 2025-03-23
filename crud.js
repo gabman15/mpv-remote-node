@@ -3,8 +3,8 @@ const os = require("os");
 
 const sqlite3 = require("sqlite3");
 const { open } = require("sqlite");
-const DB_PATH = path.join(getScriptFolder(), "mpvremote", "remote.db");
 const fs = require("fs");
+const DB_PATH = path.join(getDBDir(), "remote.db");
 
 let db;
 
@@ -29,6 +29,16 @@ function getMPVHome() {
     }
   }
   return mpvHome;
+}
+
+function getDBDir() {
+    const xdgDataHome =
+          process.env["XDG_DATA_HOME"];
+    dbDir = path.join(xdgDataHome, "mpvremote");
+    if (!fs.existsSync(dbDir)) {
+        fs.mkdirSync(dbDir);
+    }
+    return dbDir;
 }
 
 // Get scripts folder
